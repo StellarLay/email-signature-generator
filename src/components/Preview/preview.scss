@@ -1,3 +1,11 @@
+span {
+  color: var(--text-color) !important;
+}
+
+.content-table {
+  border: 1px dashed var(--border-color) !important;
+}
+
 .logo {
   max-width: 150px;
   width: 150px;
