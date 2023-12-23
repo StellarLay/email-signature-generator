@@ -24,6 +24,10 @@
 }
 
 @media (max-width: 576px) {
+  body {
+    overflow-y: auto !important;
+  }
+
   .container {
     width: 100%;
     max-width: 100%;
@@ -47,6 +51,8 @@
     }
 
     .buttons-block__wrapper {
+      margin-bottom: 30px;
+
       .buttons-block .generate-btn {
         width: 100%;
       }
@@ -55,7 +61,7 @@
 
   .notification-popup {
     width: 80%;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50px;
     transform: translate(-50%, -50%);
