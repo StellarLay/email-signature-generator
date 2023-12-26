@@ -50,6 +50,7 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: 0.25s linear;
+  color: var(--text-color);
 }
 
 button:hover {

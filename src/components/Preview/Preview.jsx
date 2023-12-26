@@ -55,9 +55,6 @@ const Preview = (props) => {
                         height: "100%",
                         alignItems: "flex-start",
                         justifyContent: "space-between",
-                        // display: "flex",
-                        // alignItems: "flex-start",
-                        // justifyContent: "space-between",
                         marginBottom: "0",
                       }}
                     >
@@ -103,9 +100,6 @@ const Preview = (props) => {
                           display: "inline",
                           float: "right",
                           height: "190px",
-                          // display: "flex",
-                          // flexDirection: "column",
-                          // justifyContent: "center",
                         }}
                       >
                         <table
@@ -169,10 +163,7 @@ const Preview = (props) => {
                                   <tbody>
                                     <tr
                                       style={{
-                                        // display: "flex",
                                         height: "100%",
-                                        // alignItems: "flex-start",
-                                        // justifyContent: "space-between",
                                       }}
                                     >
                                       <td>
@@ -191,7 +182,7 @@ const Preview = (props) => {
                                               >
                                                 <img
                                                   className="mini-icon"
-                                                  src="https://i.postimg.cc/CMC8JnTP/phone-2.png"
+                                                  src="https://drive.google.com/uc?export=view&id=1dkjDP1QpeTSbW0k4D5U-cxwEegkfqzIU"
                                                   color="#000"
                                                   alt="Phone icon"
                                                   style={{
@@ -232,7 +223,7 @@ const Preview = (props) => {
                                               >
                                                 <img
                                                   className="mini-icon"
-                                                  src="https://i.postimg.cc/pLS5yDzT/envelope-1.png"
+                                                  src="https://drive.google.com/uc?export=view&id=1Vxidzi7f-vMmK8Ij4NGv-S2O6UK--6Wy"
                                                   color="#000"
                                                   alt="Email icon"
                                                   style={{
@@ -278,7 +269,7 @@ const Preview = (props) => {
                                               >
                                                 <img
                                                   className="mini-icon"
-                                                  src="https://i.postimg.cc/ZnjCm3JJ/arrow-1.png"
+                                                  src="https://drive.google.com/uc?export=view&id=1LMcWwXfbjUwaaJT6nlU0lK-wm34VI8_4"
                                                   color="#000"
                                                   alt="Website URL icon"
                                                   style={{
@@ -321,11 +312,7 @@ const Preview = (props) => {
                                             width: "100%",
                                             textAlign: "right",
                                             borderCollapse: "collapse",
-                                            // display: "flex",
                                             height: "100%",
-
-                                            // alignItems: "flex-start",
-                                            // justifyContent: "flex-end",
                                           }}
                                         >
                                           <tbody>
@@ -342,7 +329,7 @@ const Preview = (props) => {
                                                       }}
                                                     >
                                                       <img
-                                                        src="https://i.postimg.cc/9FXq4qjT/linkedin-1.png"
+                                                        src="https://drive.google.com/uc?export=view&id=1z-eHUOGlJFXAKmEQm06RUhy-UVBEspJt"
                                                         alt="linkedin"
                                                         style={{
                                                           maxWidth: "135px",
@@ -362,7 +349,7 @@ const Preview = (props) => {
                                                       }}
                                                     >
                                                       <img
-                                                        src="https://i.postimg.cc/13ktK8bv/instagram-1.png"
+                                                        src="https://drive.google.com/uc?export=view&id=1PBrP6IRl_HYBfpVdVTl0huZ9yBLbENq5"
                                                         alt="instagram"
                                                         color="#000"
                                                         style={{
@@ -383,7 +370,7 @@ const Preview = (props) => {
                                                       }}
                                                     >
                                                       <img
-                                                        src="https://i.postimg.cc/DZd807jB/youtube-1.png"
+                                                        src="https://drive.google.com/uc?export=view&id=1Lexe2dRwtqLzohbKZVdIEChWjWYN7lMS"
                                                         alt="youtube"
                                                         color="#000"
                                                         style={{
