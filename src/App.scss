@@ -7,7 +7,7 @@
 }
 
 .container {
-  width: 500px;
+  width: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,25 +28,39 @@
     overflow-y: auto !important;
   }
 
+  #root {
+    width: 100%;
+    padding: 10px !important;
+  }
+
   .container {
     width: 100%;
     max-width: 100%;
   }
 
   .preview-block {
+    width: 100% !important;
+
     .content-table {
+      width: 90% !important;
       overflow-x: scroll;
+
+      .main-table-tag,
+      .table-flex {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
     }
 
     table.general-table {
       overflow-x: scroll;
 
       .table-left {
-        width: 50% !important;
+        width: 40% !important;
       }
 
       .table-right {
-        width: 40% !important;
+        width: 60% !important;
       }
     }
 

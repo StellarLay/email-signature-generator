@@ -2,17 +2,21 @@ span {
   color: var(--text-color) !important;
 }
 
-.content-table {
-  border: 1px dashed var(--border-color) !important;
+.notification-popup span {
+  color: #fff !important;
 }
 
-.logo {
-  max-width: 150px;
-  width: 150px;
-  height: 150px;
-  border-radius: 3px;
-  flex-shrink: 0;
-}
+// .content-table {
+//   border: 1px dashed var(--border-color) !important;
+// }
+
+// .logo {
+//   max-width: 160px;
+//   width: 160px;
+//   height: 160px;
+//   border-radius: 3px;
+//   flex-shrink: 0;
+// }
 
 .preview-block {
   width: 100%;
@@ -22,9 +26,13 @@ span {
 }
 
 .content-table {
-  width: 100%;
-  height: 240px;
-  border: 1px dashed #0000006e;
+  display: flex;
+  justify-content: center;
+  // width: 100%;
+  padding: 15px;
+  -webkit-box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
 
   .main-table-tag {
     width: 100%;
@@ -32,30 +40,31 @@ span {
     justify-content: center;
   }
 
-  .table-flex {
-    width: 100%;
-    height: 100%;
-    gap: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  // .table-flex {
+  //   width: 100%;
+  //   height: 100%;
+  //   gap: 20px;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  // }
 
   .table-left {
-    max-width: 150px;
-    width: 35%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    // max-width: 150px;
+    // width: 35%;
+    // height: 100%;
+    // display: flex;
+    // flex-direction: column;
+    // align-items: flex-start;
+    // justify-content: center;
   }
 
   .table-right {
-    width: 55%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    // width: 55%;
+    // height: 100%;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
 
     .mini-icon {
       margin-top: 2px;
@@ -74,3 +83,7 @@ span {
     width: 300px;
   }
 }
+
+// .mini-icon {
+//   padding-top: 4px;
+// }
