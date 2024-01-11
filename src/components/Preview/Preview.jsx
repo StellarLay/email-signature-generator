@@ -182,7 +182,8 @@ const Preview = (props) => {
                                               >
                                                 <img
                                                   className="mini-icon"
-                                                  src="https://drive.google.com/uc?export=view&id=1dkjDP1QpeTSbW0k4D5U-cxwEegkfqzIU"
+                                                  //src="https://drive.google.com/uc?export=view&id=1dkjDP1QpeTSbW0k4D5U-cxwEegkfqzIU"
+                                                  src="https://drive.google.com/thumbnail?id=1dkjDP1QpeTSbW0k4D5U-cxwEegkfqzIU"
                                                   color="#000"
                                                   alt="Phone icon"
                                                   style={{
@@ -223,7 +224,8 @@ const Preview = (props) => {
                                               >
                                                 <img
                                                   className="mini-icon"
-                                                  src="https://drive.google.com/uc?export=view&id=1Vxidzi7f-vMmK8Ij4NGv-S2O6UK--6Wy"
+                                                  //src="https://drive.google.com/uc?export=view&id=1Vxidzi7f-vMmK8Ij4NGv-S2O6UK--6Wy"
+                                                  src="https://drive.google.com/thumbnail?id=1Vxidzi7f-vMmK8Ij4NGv-S2O6UK--6Wy"
                                                   color="#000"
                                                   alt="Email icon"
                                                   style={{
@@ -269,7 +271,8 @@ const Preview = (props) => {
                                               >
                                                 <img
                                                   className="mini-icon"
-                                                  src="https://drive.google.com/uc?export=view&id=1LMcWwXfbjUwaaJT6nlU0lK-wm34VI8_4"
+                                                  //src="https://drive.google.com/uc?export=view&id=1LMcWwXfbjUwaaJT6nlU0lK-wm34VI8_4"
+                                                  src="https://drive.google.com/thumbnail?id=1LMcWwXfbjUwaaJT6nlU0lK-wm34VI8_4"
                                                   color="#000"
                                                   alt="Website URL icon"
                                                   style={{
@@ -329,7 +332,8 @@ const Preview = (props) => {
                                                       }}
                                                     >
                                                       <img
-                                                        src="https://drive.google.com/uc?export=view&id=1z-eHUOGlJFXAKmEQm06RUhy-UVBEspJt"
+                                                        //src="https://drive.google.com/uc?export=view&id=1z-eHUOGlJFXAKmEQm06RUhy-UVBEspJt"
+                                                        src="https://drive.google.com/thumbnail?id=1z-eHUOGlJFXAKmEQm06RUhy-UVBEspJt"
                                                         alt="linkedin"
                                                         style={{
                                                           maxWidth: "135px",
@@ -349,7 +353,8 @@ const Preview = (props) => {
                                                       }}
                                                     >
                                                       <img
-                                                        src="https://drive.google.com/uc?export=view&id=1PBrP6IRl_HYBfpVdVTl0huZ9yBLbENq5"
+                                                        //src="https://drive.google.com/uc?export=view&id=1PBrP6IRl_HYBfpVdVTl0huZ9yBLbENq5"
+                                                        src="https://drive.google.com/thumbnail?id=1PBrP6IRl_HYBfpVdVTl0huZ9yBLbENq5"
                                                         alt="instagram"
                                                         color="#000"
                                                         style={{
@@ -370,7 +375,8 @@ const Preview = (props) => {
                                                       }}
                                                     >
                                                       <img
-                                                        src="https://drive.google.com/uc?export=view&id=1Lexe2dRwtqLzohbKZVdIEChWjWYN7lMS"
+                                                        //src="https://drive.google.com/uc?export=view&id=1Lexe2dRwtqLzohbKZVdIEChWjWYN7lMS"
+                                                        src="https://drive.google.com/thumbnail?id=1Lexe2dRwtqLzohbKZVdIEChWjWYN7lMS"
                                                         alt="youtube"
                                                         color="#000"
                                                         style={{
