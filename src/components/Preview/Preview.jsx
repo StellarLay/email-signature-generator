@@ -418,7 +418,7 @@ const Preview = (props) => {
                             borderRadius: "2px",
                           }}
                         >
-                          <img src="https://thumb.tildacdn.com/tild3830-3339-4166-b161-326566336365/-/resize/162x/-/format/webp/logo_white_1.png" />
+                          <img src="https://drive.google.com/thumbnail?id=1HxghcDi57IpCr-YnqvZls9kaMdO2Usj2" />
                         </div>
                       </td>
                     </tr>
