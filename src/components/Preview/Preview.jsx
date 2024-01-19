@@ -418,7 +418,10 @@ const Preview = (props) => {
                             borderRadius: "2px",
                           }}
                         >
-                          <img src="https://drive.google.com/thumbnail?id=1HxghcDi57IpCr-YnqvZls9kaMdO2Usj2" />
+                          <img
+                            width="150"
+                            src="https://drive.google.com/thumbnail?id=1HxghcDi57IpCr-YnqvZls9kaMdO2Usj2"
+                          />
                         </div>
                       </td>
                     </tr>
