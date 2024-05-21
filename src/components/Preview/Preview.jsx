@@ -150,7 +150,7 @@ const Preview = (props) => {
                                         <img
                                           style={{
                                             width: "15px",
-                                            verticalAlign: 'middle'
+                                            verticalAlign: "middle",
                                           }}
                                           src="https://lh3.googleusercontent.com/d/1zK--ntOLqauYPGhk_8kDZdCivWbLfVSv=s220?authuser=2"
                                         />
@@ -347,75 +347,74 @@ const Preview = (props) => {
                                             textAlign: "right",
                                             borderCollapse: "collapse",
                                             height: "100%",
-                                            float: 'right'
+                                            float: "right",
                                           }}
                                         >
                                           <tbody>
                                             <tr>
                                               <td>
-                                                    <a
-                                                      href="https://www.linkedin.com/company/20417837"
-                                                      color="#000"
-                                                      style={{
-                                                        display: "inline-block",
-                                                        padding: "0px",
-                                                      }}
-                                                    >
-                                                      <img
-                                                        //src="https://drive.google.com/uc?export=view&id=1z-eHUOGlJFXAKmEQm06RUhy-UVBEspJt"
-                                                        src="https://drive.google.com/thumbnail?id=1z-eHUOGlJFXAKmEQm06RUhy-UVBEspJt"
-                                                        alt="linkedin"
-                                                        style={{
-                                                          maxWidth: "135px",
-                                                          display: "block",
-                                                        }}
-                                                      />
-                                                    </a>
-                                                    </td>
-                                                    <td>
-                                                    <a
-                                                      href="https://www.instagram.com/reputation_house"
-                                                      color="#000"
-                                                      style={{
-                                                        display: "inline-block",
-                                                        padding: "0px",
-                                                        marginLeft: "10px",
-                                                      }}
-                                                    >
-                                                      <img
-                                                        //src="https://drive.google.com/uc?export=view&id=1PBrP6IRl_HYBfpVdVTl0huZ9yBLbENq5"
-                                                        src="https://drive.google.com/thumbnail?id=1PBrP6IRl_HYBfpVdVTl0huZ9yBLbENq5"
-                                                        alt="instagram"
-                                                        color="#000"
-                                                        style={{
-                                                          maxWidth: "135px",
-                                                          display: "block",
-                                                        }}
-                                                      />
-                                                    </a>
-                                                    </td>
-                                                    <td>
-                                                    <a
-                                                      href="https://www.youtube.com/@ReputationHouse-pr2tq"
-                                                      color="#000"
-                                                      style={{
-                                                        display: "inline-block",
-                                                        padding: "0px",
-                                                        marginLeft: "10px",
-                                                      }}
-                                                    >
-                                                      <img
-                                                        //src="https://drive.google.com/uc?export=view&id=1Lexe2dRwtqLzohbKZVdIEChWjWYN7lMS"
-                                                        src="https://drive.google.com/thumbnail?id=1Lexe2dRwtqLzohbKZVdIEChWjWYN7lMS"
-                                                        alt="youtube"
-                                                        color="#000"
-                                                        style={{
-                                                          maxWidth: "135px",
-                                                          display: "block",
-                                                        }}
-                                                      />
-                                                    </a>
-                                                    
+                                                <a
+                                                  href="https://www.linkedin.com/company/20417837"
+                                                  color="#000"
+                                                  style={{
+                                                    display: "inline-block",
+                                                    padding: "0px",
+                                                  }}
+                                                >
+                                                  <img
+                                                    //src="https://drive.google.com/uc?export=view&id=1z-eHUOGlJFXAKmEQm06RUhy-UVBEspJt"
+                                                    src="https://drive.google.com/thumbnail?id=1z-eHUOGlJFXAKmEQm06RUhy-UVBEspJt"
+                                                    alt="linkedin"
+                                                    style={{
+                                                      maxWidth: "135px",
+                                                      display: "block",
+                                                    }}
+                                                  />
+                                                </a>
+                                              </td>
+                                              <td>
+                                                <a
+                                                  href="https://www.instagram.com/reputation_house"
+                                                  color="#000"
+                                                  style={{
+                                                    display: "inline-block",
+                                                    padding: "0px",
+                                                    marginLeft: "10px",
+                                                  }}
+                                                >
+                                                  <img
+                                                    //src="https://drive.google.com/uc?export=view&id=1PBrP6IRl_HYBfpVdVTl0huZ9yBLbENq5"
+                                                    src="https://drive.google.com/thumbnail?id=1PBrP6IRl_HYBfpVdVTl0huZ9yBLbENq5"
+                                                    alt="instagram"
+                                                    color="#000"
+                                                    style={{
+                                                      maxWidth: "135px",
+                                                      display: "block",
+                                                    }}
+                                                  />
+                                                </a>
+                                              </td>
+                                              <td>
+                                                <a
+                                                  href="https://www.youtube.com/@ReputationHouse-pr2tq"
+                                                  color="#000"
+                                                  style={{
+                                                    display: "inline-block",
+                                                    padding: "0px",
+                                                    marginLeft: "10px",
+                                                  }}
+                                                >
+                                                  <img
+                                                    //src="https://drive.google.com/uc?export=view&id=1Lexe2dRwtqLzohbKZVdIEChWjWYN7lMS"
+                                                    src="https://drive.google.com/thumbnail?id=1Lexe2dRwtqLzohbKZVdIEChWjWYN7lMS"
+                                                    alt="youtube"
+                                                    color="#000"
+                                                    style={{
+                                                      maxWidth: "135px",
+                                                      display: "block",
+                                                    }}
+                                                  />
+                                                </a>
                                               </td>
                                             </tr>
                                           </tbody>
@@ -430,38 +429,42 @@ const Preview = (props) => {
                         </table>
                       </td>
                     </tr>
-                    <tr style={{ display: "flex",
+                    <tr
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        minHeight: "20px",
+                        height: "20px",
+                        justifyContent: "flex-start",
+                        backgroundColor: "#ee1b22",
+                        borderRadius: "2px",
+                        marginTop: "0",
+                      }}
+                    >
+                      <td
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          minHeight: "20px",
                           height: "20px",
                           justifyContent: "flex-start",
                           backgroundColor: "#ee1b22",
                           borderRadius: "2px",
-                          marginTop: "0" }}>
-                      <td
-                        className="logo-table"
-                        // style={{
-                        
-                        //   display: "flex",
-                        //   height: "20px",
-                        //   justifyContent: "flex-start",
-                        //   backgroundColor: "#ee1b22",
-                        //   borderRadius: "2px",
-                        // }}
+                          marginTop: "0",
+                        }}
                       >
-                        {/* <div
-                          className="logo-block"
+                        <div
                           style={{
                             display: "flex",
+                            width: "100%",
+                            minHeight: "20px",
                             height: "20px",
                             justifyContent: "flex-start",
                             backgroundColor: "#ee1b22",
                             borderRadius: "2px",
+                            marginTop: "0",
                           }}
-                        > */}
-                          {/* <img
-                            width="150"
-                            src="https://drive.google.com/thumbnail?id=1HxghcDi57IpCr-YnqvZls9kaMdO2Usj2"
-                          /> */}
-                        {/* </div> */}
+                        ></div>
                       </td>
                     </tr>
                   </tbody>
