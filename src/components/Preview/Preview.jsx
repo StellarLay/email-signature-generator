@@ -113,45 +113,76 @@ const Preview = (props) => {
                                   position: "relative",
                                 }}
                               >
-                                <span
-                                  style={{
-                                    fontWeight: "bold",
-                                    fontSize: "18px",
-                                    color: "#000",
-                                  }}
-                                >
-                                  {data.firstname ? data.firstname : "Имя"}
-                                </span>
-                                <span>&nbsp;</span>
-                                <span
-                                  style={{
-                                    fontWeight: "bold",
-                                    fontSize: "18px",
-                                    color: "#000",
-                                  }}
-                                >
-                                  {data.lastname ? data.lastname : "Фамилия"}
-                                </span>
-                                <p
-                                  style={{
-                                    margin: 0,
-                                    marginBottom: "5px",
-                                    paddingBottom: "10px",
-                                    borderBottom: "1px solid #ee1b22",
-                                  }}
-                                >
-                                  <span
-                                    style={{
-                                      fontSize: "14px",
-                                      lineHeight: "22px",
-                                      color: "#000",
-                                    }}
-                                  >
-                                    {data.position
-                                      ? data.position
-                                      : "Должность"}
-                                  </span>
-                                </p>
+                                <table>
+                                  <tbody>
+                                    <tr>
+                                      <td>
+                                        <span
+                                          style={{
+                                            fontWeight: "bold",
+                                            fontSize: "18px",
+                                            color: "#000",
+                                          }}
+                                        >
+                                          {data.firstname
+                                            ? data.firstname
+                                            : "Имя"}
+                                        </span>
+                                        <span>&nbsp;</span>
+                                        <span
+                                          style={{
+                                            fontWeight: "bold",
+                                            fontSize: "18px",
+                                            color: "#000",
+                                          }}
+                                        >
+                                          {data.lastname
+                                            ? data.lastname
+                                            : "Фамилия"}
+                                        </span>
+                                      </td>
+                                      <td
+                                        style={{
+                                          width: "100%",
+                                          textAlign: "right",
+                                        }}
+                                      >
+                                        <img
+                                          style={{
+                                            width: "15px",
+                                            verticalAlign: 'middle'
+                                          }}
+                                          src="https://lh3.googleusercontent.com/d/1zK--ntOLqauYPGhk_8kDZdCivWbLfVSv=s220?authuser=2"
+                                        />
+                                      </td>
+                                    </tr>
+
+                                    <tr>
+                                      <td>
+                                        <p
+                                          style={{
+                                            margin: 0,
+                                            marginBottom: "5px",
+                                            paddingBottom: "10px",
+                                            //borderBottom: "1px solid #ee1b22",
+                                          }}
+                                        >
+                                          <span
+                                            style={{
+                                              fontSize: "14px",
+                                              lineHeight: "22px",
+                                              color: "#000",
+                                            }}
+                                          >
+                                            {data.position
+                                              ? data.position
+                                              : "Должность"}
+                                          </span>
+                                        </p>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
 
                                 <table
                                   style={{
@@ -316,13 +347,12 @@ const Preview = (props) => {
                                             textAlign: "right",
                                             borderCollapse: "collapse",
                                             height: "100%",
+                                            float: 'right'
                                           }}
                                         >
                                           <tbody>
                                             <tr>
                                               <td>
-                                                <div>
-                                                  <>
                                                     <a
                                                       href="https://www.linkedin.com/company/20417837"
                                                       color="#000"
@@ -341,8 +371,8 @@ const Preview = (props) => {
                                                         }}
                                                       />
                                                     </a>
-                                                  </>
-                                                  <>
+                                                    </td>
+                                                    <td>
                                                     <a
                                                       href="https://www.instagram.com/reputation_house"
                                                       color="#000"
@@ -363,8 +393,8 @@ const Preview = (props) => {
                                                         }}
                                                       />
                                                     </a>
-                                                  </>
-                                                  <>
+                                                    </td>
+                                                    <td>
                                                     <a
                                                       href="https://www.youtube.com/@ReputationHouse-pr2tq"
                                                       color="#000"
@@ -385,8 +415,7 @@ const Preview = (props) => {
                                                         }}
                                                       />
                                                     </a>
-                                                  </>
-                                                </div>
+                                                    
                                               </td>
                                             </tr>
                                           </tbody>
@@ -401,28 +430,38 @@ const Preview = (props) => {
                         </table>
                       </td>
                     </tr>
-                    <tr style={{ marginTop: "0" }}>
+                    <tr style={{ display: "flex",
+                          height: "20px",
+                          justifyContent: "flex-start",
+                          backgroundColor: "#ee1b22",
+                          borderRadius: "2px",
+                          marginTop: "0" }}>
                       <td
                         className="logo-table"
-                        style={{
-                          width: "100%",
-                        }}
+                        // style={{
+                        
+                        //   display: "flex",
+                        //   height: "20px",
+                        //   justifyContent: "flex-start",
+                        //   backgroundColor: "#ee1b22",
+                        //   borderRadius: "2px",
+                        // }}
                       >
-                        <div
+                        {/* <div
                           className="logo-block"
                           style={{
                             display: "flex",
+                            height: "20px",
                             justifyContent: "flex-start",
                             backgroundColor: "#ee1b22",
-                            padding: "10px 15px",
                             borderRadius: "2px",
                           }}
-                        >
-                          <img
+                        > */}
+                          {/* <img
                             width="150"
                             src="https://drive.google.com/thumbnail?id=1HxghcDi57IpCr-YnqvZls9kaMdO2Usj2"
-                          />
-                        </div>
+                          /> */}
+                        {/* </div> */}
                       </td>
                     </tr>
                   </tbody>

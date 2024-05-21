@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import InputMask from "react-input-mask";
 
-import "./SignatureForm.scss";
+import "./signatureForm.scss";
 
 const SignatureForm = (props) => {
   const { setData } = props;
