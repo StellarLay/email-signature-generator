@@ -158,7 +158,9 @@ const Preview = (props) => {
                                     </tr>
 
                                     <tr>
-                                      <td>
+                                      <td style={{
+                                        width: '100%'
+                                      }}>
                                         <p
                                           style={{
                                             margin: 0,
