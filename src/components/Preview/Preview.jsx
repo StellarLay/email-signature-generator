@@ -152,7 +152,7 @@ const Preview = (props) => {
                                             width: "15px",
                                             verticalAlign: "middle",
                                           }}
-                                          src="https://lh3.googleusercontent.com/d/1zK--ntOLqauYPGhk_8kDZdCivWbLfVSv=s220?authuser=2"
+                                          src="https://lh3.googleusercontent.com/d/1keeR8xgOoTt0EM0WEuTqsNDLfb_LgwuR?authuser=2"
                                         />
                                       </td>
                                     </tr>
@@ -216,7 +216,7 @@ const Preview = (props) => {
                                                 <img
                                                   className="mini-icon"
                                                   //src="https://drive.google.com/uc?export=view&id=1dkjDP1QpeTSbW0k4D5U-cxwEegkfqzIU"
-                                                  src="https://drive.google.com/thumbnail?id=1dkjDP1QpeTSbW0k4D5U-cxwEegkfqzIU"
+                                                  src="https://drive.google.com/thumbnail?id=1S7Mcza6Thb5fgcbh5CdvC9JigfJVUvI6"
                                                   color="#000"
                                                   alt="Phone icon"
                                                   style={{
@@ -258,7 +258,7 @@ const Preview = (props) => {
                                                 <img
                                                   className="mini-icon"
                                                   //src="https://drive.google.com/uc?export=view&id=1Vxidzi7f-vMmK8Ij4NGv-S2O6UK--6Wy"
-                                                  src="https://drive.google.com/thumbnail?id=1Vxidzi7f-vMmK8Ij4NGv-S2O6UK--6Wy"
+                                                  src="https://drive.google.com/thumbnail?id=1J7czVX1u9Ex3eDHtIzIXcf4fu4M9F5an"
                                                   color="#000"
                                                   alt="Email icon"
                                                   style={{
@@ -305,7 +305,7 @@ const Preview = (props) => {
                                                 <img
                                                   className="mini-icon"
                                                   //src="https://drive.google.com/uc?export=view&id=1LMcWwXfbjUwaaJT6nlU0lK-wm34VI8_4"
-                                                  src="https://drive.google.com/thumbnail?id=1LMcWwXfbjUwaaJT6nlU0lK-wm34VI8_4"
+                                                  src="https://drive.google.com/thumbnail?id=158aUjipXMy-XOPoL_aavxfZJcs0A5cPV"
                                                   color="#000"
                                                   alt="Website URL icon"
                                                   style={{
@@ -365,7 +365,7 @@ const Preview = (props) => {
                                                 >
                                                   <img
                                                     //src="https://drive.google.com/uc?export=view&id=1z-eHUOGlJFXAKmEQm06RUhy-UVBEspJt"
-                                                    src="https://drive.google.com/thumbnail?id=1z-eHUOGlJFXAKmEQm06RUhy-UVBEspJt"
+                                                    src="https://drive.google.com/thumbnail?id=1jCPqEBIMANLcQcfvFi-D07JK-JyBz4hQ"
                                                     alt="linkedin"
                                                     style={{
                                                       maxWidth: "135px",
@@ -386,7 +386,7 @@ const Preview = (props) => {
                                                 >
                                                   <img
                                                     //src="https://drive.google.com/uc?export=view&id=1PBrP6IRl_HYBfpVdVTl0huZ9yBLbENq5"
-                                                    src="https://drive.google.com/thumbnail?id=1PBrP6IRl_HYBfpVdVTl0huZ9yBLbENq5"
+                                                    src="https://drive.google.com/thumbnail?id=1IOnavgjMFf75lUtlOTJdsh9C8VOCM1Jg"
                                                     alt="instagram"
                                                     color="#000"
                                                     style={{
@@ -408,7 +408,7 @@ const Preview = (props) => {
                                                 >
                                                   <img
                                                     //src="https://drive.google.com/uc?export=view&id=1Lexe2dRwtqLzohbKZVdIEChWjWYN7lMS"
-                                                    src="https://drive.google.com/thumbnail?id=1Lexe2dRwtqLzohbKZVdIEChWjWYN7lMS"
+                                                    src="https://drive.google.com/thumbnail?id=1yMtmoSolq0Fs5eUJg1_9fNwN2i8BgWwy"
                                                     alt="youtube"
                                                     color="#000"
                                                     style={{
