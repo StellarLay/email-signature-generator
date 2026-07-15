@@ -7,14 +7,14 @@ import { faInstagram, faLinkedinIn, faYoutube } from "@fortawesome/free-brands-s
 const sourcePath = process.argv[2];
 
 if (!sourcePath) {
-  throw new Error("Передайте путь к декоративному SVG первым аргументом");
+  throw new Error("Pass the decorative SVG path as the first argument");
 }
 
 const outputDirectory = resolve("public/email-assets");
 await mkdir(outputDirectory, { recursive: true });
 
 const logoResponse = await fetch("https://lh3.googleusercontent.com/d/1keeR8xgOoTt0EM0WEuTqsNDLfb_LgwuR?authuser=2");
-if (!logoResponse.ok) throw new Error("Не удалось загрузить логотип Reputation House");
+if (!logoResponse.ok) throw new Error("Could not download the Reputation House logo");
 
 await sharp(Buffer.from(await logoResponse.arrayBuffer()))
   .resize({ width: 162 })

@@ -9,7 +9,7 @@ const initialFormData = {
   firstname: "",
   lastname: "",
   position: "",
-  phone: "",
+  phone: "+7 999 123-45-67",
   email: "",
   photoUrl: "",
   photoDataUrl: "",
@@ -51,16 +51,16 @@ function App() {
               </Flex>
             </Badge>
             <Heading as="h1" fontSize={{ base: "3xl", md: "5xl" }} lineHeight="1.04" letterSpacing="-0.045em" fontWeight="750">
-              Генератор корпоративной подписи
+              Corporate email signature generator
             </Heading>
             <Text mt="4" color="#5d685f" fontSize={{ base: "md", md: "lg" }} maxW="650px">
-              Единый фирменный шаблон Reputation House для почты сотрудников.
+              A consistent Reputation House email signature for every team member.
             </Text>
           </Box>
           <Badge variant="outline" borderColor="#c8d2c5" color="#526052" px="3" py="2" borderRadius="full" flexShrink="0">
             <Flex align="center" gap="2">
               <Box boxSize="2" borderRadius="full" bg="#7ea172" />
-              Фирменный шаблон RH
+              Official RH template
             </Flex>
           </Badge>
         </Flex>

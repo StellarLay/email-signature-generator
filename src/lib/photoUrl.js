@@ -22,5 +22,5 @@ export const normalizePhotoUrl = (value) => {
   const googleDriveFileId = getGoogleDriveFileId(trimmedValue);
 
   if (!googleDriveFileId) return trimmedValue;
-  return `https://lh3.googleusercontent.com/d/${encodeURIComponent(googleDriveFileId)}=w1000`;
+  return `https://drive.google.com/thumbnail?id=${encodeURIComponent(googleDriveFileId)}`;
 };

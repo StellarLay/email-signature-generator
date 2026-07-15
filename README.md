@@ -1,29 +1,29 @@
 # Email Signature Studio
 
-Генератор корпоративной email-подписи Reputation House на React, Vite и Chakra UI.
+Reputation House corporate email signature generator built with React, Vite, and Chakra UI.
 
-## Запуск
+## Development
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Проверки
+## Checks
 
 ```bash
 npm run lint
 npm run build
 ```
 
-Кнопка «Скопировать подпись» записывает в буфер обмена HTML и текстовую версию одновременно. Табличная разметка и inline-стили внутри подписи сохранены намеренно для совместимости с Gmail и Outlook.
+The “Copy signature” button writes both HTML and plain-text versions to the clipboard. Table layout and inline styles are intentional for compatibility with Gmail, Outlook, and other email clients.
 
-## Email-ассеты
+## Email assets
 
-Иконки в подписи используются как PNG по абсолютным URL развёрнутого приложения: почтовые редакторы часто удаляют inline SVG. Чтобы пересобрать иконки FontAwesome и декоративную фигуру из исходного SVG:
+Signature icons use PNG files hosted at absolute public HTTPS URLs because email editors often remove inline SVG. To rebuild the FontAwesome icons and decorative shape from the source SVG:
 
 ```bash
 npm run assets:email -- /absolute/path/to/shape.svg
 ```
 
-Команда сохраняет обрезанный SVG и готовые PNG в `public/email-assets`.
+The command saves the cropped SVG and generated PNG files to `public/email-assets`.

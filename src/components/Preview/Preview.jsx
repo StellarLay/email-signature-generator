@@ -1,49 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Box, Button, Flex, Heading, Icon, Text } from "@chakra-ui/react";
 import { Code2, Copy, Eye, LoaderCircle } from "lucide-react";
 
 import EmailSignature from "../EmailSignature/EmailSignature";
-import { copyRichText, copyText, createPortableHtml } from "../../lib/clipboard";
+import { copyRichText, copyText, createEmailHtml } from "../../lib/clipboard";
+
+const GMAIL_SAFE_HTML_LENGTH = 9000;
 
 const Preview = ({ data, onNotify }) => {
   const signatureRef = useRef(null);
-  const portableHtmlRef = useRef("");
-  const preparationIdRef = useRef(0);
   const [copying, setCopying] = useState("");
-  const [preparedDataKey, setPreparedDataKey] = useState("");
-  const dataKey = JSON.stringify(data);
-  const isPreparing = preparedDataKey !== dataKey;
-
-  useEffect(() => {
-    const preparationId = preparationIdRef.current + 1;
-    preparationIdRef.current = preparationId;
-    portableHtmlRef.current = "";
-
-    const animationFrameId = window.requestAnimationFrame(async () => {
-      try {
-        const html = await createPortableHtml(signatureRef.current);
-        if (preparationIdRef.current === preparationId) {
-          portableHtmlRef.current = html;
-          setPreparedDataKey(dataKey);
-        }
-      } catch {
-        if (preparationIdRef.current === preparationId) {
-          portableHtmlRef.current = signatureRef.current?.outerHTML || "";
-          setPreparedDataKey(dataKey);
-        }
-      }
-    });
-
-    return () => {
-      window.cancelAnimationFrame(animationFrameId);
-      if (preparationIdRef.current === preparationId) preparationIdRef.current += 1;
-    };
-  }, [dataKey]);
 
   const getPlainText = () => [
-    `${data.firstname || "Имя"} ${data.lastname || "Фамилия"}`,
-    data.position || "Должность",
+    `${data.firstname || "First name"} ${data.lastname || "Last name"}`,
+    data.position || "Job title",
     data.phone || "+7 999 123-45-67",
     data.email || "name@reputation.house",
     "reputation.house",
@@ -54,18 +25,21 @@ const Preview = ({ data, onNotify }) => {
 
     setCopying(mode);
     try {
-      const html = portableHtmlRef.current;
-      if (!html) throw new Error("Signature HTML is not ready");
+      const html = createEmailHtml(signatureRef.current);
 
       if (mode === "signature") {
+        if (html.length > GMAIL_SAFE_HTML_LENGTH) {
+          onNotify("This signature is too large for Gmail. Use a public photo link instead of an uploaded file");
+          return;
+        }
         await copyRichText(html, getPlainText());
-        onNotify("Подпись скопирована — вставьте её в настройки почты");
+        onNotify("Signature copied — paste it into your email settings");
       } else {
         await copyText(html);
-        onNotify("HTML-код подписи скопирован");
+        onNotify("Signature HTML copied");
       }
     } catch {
-      onNotify("Не удалось скопировать. Разрешите доступ к буферу обмена");
+      onNotify("Could not copy. Please allow clipboard access and try again");
     } finally {
       setCopying("");
     }
@@ -75,8 +49,8 @@ const Preview = ({ data, onNotify }) => {
     <Box as="section" bg="rgba(255,255,255,.88)" border="1px solid" borderColor="#e1e7de" borderRadius="3xl" p={{ base: "5", md: "7" }} boxShadow="0 22px 70px rgba(47, 65, 46, 0.08)" backdropFilter="blur(14px)" minW="0">
       <Flex align="center" justify="space-between" gap="4" mb="6">
         <Box>
-          <Text color="#718070" fontSize="xs" textTransform="uppercase" letterSpacing="0.14em" fontWeight="800">Шаг 2</Text>
-          <Heading as="h2" mt="1" fontSize="2xl" letterSpacing="-0.025em">Готовая подпись</Heading>
+          <Text color="#718070" fontSize="xs" textTransform="uppercase" letterSpacing="0.14em" fontWeight="800">Step 2</Text>
+          <Heading as="h2" mt="1" fontSize="2xl" letterSpacing="-0.025em">Your signature</Heading>
         </Box>
         <Flex boxSize="10" align="center" justify="center" bg="#edf4e9" color="#526d4c" borderRadius="xl">
           <Icon as={Eye} boxSize="5" />
@@ -108,10 +82,10 @@ const Preview = ({ data, onNotify }) => {
           _hover={{ bg: "#afcba3", transform: "translateY(-1px)" }}
           _active={{ bg: "#a2c095", transform: "translateY(0)" }}
           onClick={() => handleCopy("signature")}
-          disabled={Boolean(copying) || isPreparing}
+          disabled={Boolean(copying)}
         >
-          <Icon as={copying === "signature" || isPreparing ? LoaderCircle : Copy} boxSize="4.5" className={copying === "signature" || isPreparing ? "spin" : undefined} />
-          {isPreparing ? "Подготовка подписи" : "Скопировать подпись"}
+          <Icon as={copying === "signature" ? LoaderCircle : Copy} boxSize="4.5" className={copying === "signature" ? "spin" : undefined} />
+          Copy signature
         </Button>
         <Button
           flex="1"
@@ -123,14 +97,14 @@ const Preview = ({ data, onNotify }) => {
           fontWeight="700"
           _hover={{ bg: "#f2f6f0", borderColor: "#afc2a9" }}
           onClick={() => handleCopy("html")}
-          disabled={Boolean(copying) || isPreparing}
+          disabled={Boolean(copying)}
         >
           <Icon as={copying === "html" ? LoaderCircle : Code2} boxSize="4.5" className={copying === "html" ? "spin" : undefined} />
-          Скопировать HTML
+          Copy HTML
         </Button>
       </Flex>
       <Text mt="4" color="#7b857b" fontSize="xs" lineHeight="1.5">
-        Для Gmail и Outlook используйте первую кнопку. HTML пригодится для ручной настройки или интеграции.
+        Use the first button for Gmail, Outlook, and other email clients. Use HTML for manual setup or integrations.
       </Text>
     </Box>
   );

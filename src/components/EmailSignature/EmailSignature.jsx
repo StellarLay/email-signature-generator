@@ -3,10 +3,20 @@ import PropTypes from "prop-types";
 import { normalizePhotoUrl } from "../../lib/photoUrl";
 
 const EMAIL_ASSET_VERSION = "20260715-2";
-const emailAssetUrl = (filename) => new URL(
-  `${import.meta.env.BASE_URL}email-assets/${filename}?v=${EMAIL_ASSET_VERSION}`,
-  window.location.origin,
-).href;
+const EMAIL_ASSET_BASE_URL = "https://stellarlay.github.io/email-signature-generator/email-assets/";
+const driveThumbnail = (id, size) => `https://drive.google.com/thumbnail?id=${id}${size ? `&sz=${size}` : ""}`;
+const GOOGLE_DRIVE_ASSETS = {
+  "instagram.png": driveThumbnail("1LCS8jtE3UklY47lsntua-6aQBJWn2E7c"),
+  "envelope.png": driveThumbnail("1TpERKn8dVR2zBJxF_6z64GjMMoNVM_Cu"),
+  "phone.png": driveThumbnail("1wUH1AqftP4mPvSf1eZbz6IGryPmd7eTg"),
+  "youtube.png": driveThumbnail("1AMmZ3qT3rtlPdgqmpCrR4oCmiRbH1Yo5"),
+  "linkedin.png": driveThumbnail("10AVA_GmeklZXRuRBsYgECxIw-vlfTqz5"),
+  "reputation-house-logo.png": driveThumbnail("1keeR8xgOoTt0EM0WEuTqsNDLfb_LgwuR"),
+  "reputation-house-shape.png": driveThumbnail("1FYIsUt8W2R6E8BzcVsr86GYOI7ecWyCw", "w70-h83-p"),
+};
+
+const emailAssetUrl = (filename) => GOOGLE_DRIVE_ASSETS[filename]
+  || `${EMAIL_ASSET_BASE_URL}${filename}?v=${EMAIL_ASSET_VERSION}`;
 
 const socialLinks = [
   { label: "LinkedIn", href: "https://www.linkedin.com/company/20417837", icon: "linkedin.png" },
@@ -33,9 +43,9 @@ ContactRow.propTypes = {
 };
 
 const EmailSignature = forwardRef(({ data }, ref) => {
-  const firstName = data.firstname.trim() || "Имя";
-  const lastName = data.lastname.trim() || "Фамилия";
-  const position = data.position.trim() || "Должность";
+  const firstName = data.firstname.trim() || "First name";
+  const lastName = data.lastname.trim() || "Last name";
+  const position = data.position.trim() || "Job title";
   const phone = data.phone.trim() || "+7 999 123-45-67";
   const email = data.email.trim() || "name@reputation.house";
   const photo = data.photoDataUrl || normalizePhotoUrl(data.photoUrl) || emailAssetUrl("photo-placeholder.png");
