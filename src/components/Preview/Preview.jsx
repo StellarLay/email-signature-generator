@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Box, Button, Flex, Heading, Icon, Text } from "@chakra-ui/react";
 import { Code2, Copy, Eye, LoaderCircle } from "lucide-react";
@@ -8,7 +8,38 @@ import { copyRichText, copyText, createPortableHtml } from "../../lib/clipboard"
 
 const Preview = ({ data, onNotify }) => {
   const signatureRef = useRef(null);
+  const portableHtmlRef = useRef("");
+  const preparationIdRef = useRef(0);
   const [copying, setCopying] = useState("");
+  const [preparedDataKey, setPreparedDataKey] = useState("");
+  const dataKey = JSON.stringify(data);
+  const isPreparing = preparedDataKey !== dataKey;
+
+  useEffect(() => {
+    const preparationId = preparationIdRef.current + 1;
+    preparationIdRef.current = preparationId;
+    portableHtmlRef.current = "";
+
+    const animationFrameId = window.requestAnimationFrame(async () => {
+      try {
+        const html = await createPortableHtml(signatureRef.current);
+        if (preparationIdRef.current === preparationId) {
+          portableHtmlRef.current = html;
+          setPreparedDataKey(dataKey);
+        }
+      } catch {
+        if (preparationIdRef.current === preparationId) {
+          portableHtmlRef.current = signatureRef.current?.outerHTML || "";
+          setPreparedDataKey(dataKey);
+        }
+      }
+    });
+
+    return () => {
+      window.cancelAnimationFrame(animationFrameId);
+      if (preparationIdRef.current === preparationId) preparationIdRef.current += 1;
+    };
+  }, [dataKey]);
 
   const getPlainText = () => [
     `${data.firstname || "Имя"} ${data.lastname || "Фамилия"}`,
@@ -23,7 +54,8 @@ const Preview = ({ data, onNotify }) => {
 
     setCopying(mode);
     try {
-      const html = await createPortableHtml(signatureRef.current);
+      const html = portableHtmlRef.current;
+      if (!html) throw new Error("Signature HTML is not ready");
 
       if (mode === "signature") {
         await copyRichText(html, getPlainText());
@@ -76,10 +108,10 @@ const Preview = ({ data, onNotify }) => {
           _hover={{ bg: "#afcba3", transform: "translateY(-1px)" }}
           _active={{ bg: "#a2c095", transform: "translateY(0)" }}
           onClick={() => handleCopy("signature")}
-          disabled={Boolean(copying)}
+          disabled={Boolean(copying) || isPreparing}
         >
-          <Icon as={copying === "signature" ? LoaderCircle : Copy} boxSize="4.5" className={copying === "signature" ? "spin" : undefined} />
-          Скопировать подпись
+          <Icon as={copying === "signature" || isPreparing ? LoaderCircle : Copy} boxSize="4.5" className={copying === "signature" || isPreparing ? "spin" : undefined} />
+          {isPreparing ? "Подготовка подписи" : "Скопировать подпись"}
         </Button>
         <Button
           flex="1"
@@ -91,7 +123,7 @@ const Preview = ({ data, onNotify }) => {
           fontWeight="700"
           _hover={{ bg: "#f2f6f0", borderColor: "#afc2a9" }}
           onClick={() => handleCopy("html")}
-          disabled={Boolean(copying)}
+          disabled={Boolean(copying) || isPreparing}
         >
           <Icon as={copying === "html" ? LoaderCircle : Code2} boxSize="4.5" className={copying === "html" ? "spin" : undefined} />
           Скопировать HTML

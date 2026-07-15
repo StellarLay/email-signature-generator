@@ -1,24 +1,63 @@
 const copyWithExecCommand = (text, html) => {
-  const textarea = document.createElement("textarea");
-  textarea.value = text;
-  textarea.setAttribute("readonly", "");
-  textarea.style.position = "fixed";
-  textarea.style.opacity = "0";
-  document.body.appendChild(textarea);
-  textarea.select();
+  const activeElement = document.activeElement;
+  const selection = window.getSelection();
+  const savedRanges = selection
+    ? Array.from({ length: selection.rangeCount }, (_, index) => selection.getRangeAt(index).cloneRange())
+    : [];
+  const copyTarget = document.createElement(html ? "div" : "textarea");
 
+  copyTarget.setAttribute("aria-hidden", "true");
+  copyTarget.style.position = "fixed";
+  copyTarget.style.left = "-9999px";
+  copyTarget.style.top = "0";
+  copyTarget.style.opacity = "0";
+
+  if (html) {
+    copyTarget.contentEditable = "true";
+    copyTarget.innerHTML = html;
+  } else {
+    copyTarget.value = text;
+    copyTarget.setAttribute("readonly", "");
+  }
+
+  document.body.appendChild(copyTarget);
+
+  if (html && selection) {
+    const range = document.createRange();
+    range.selectNodeContents(copyTarget);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  } else {
+    copyTarget.select();
+    copyTarget.setSelectionRange(0, copyTarget.value.length);
+  }
+
+  let copyEventHandled = false;
   const handleCopy = (event) => {
-    if (!html) return;
+    if (!event.clipboardData) return;
     event.preventDefault();
     event.clipboardData.setData("text/plain", text);
-    event.clipboardData.setData("text/html", html);
+    if (html) event.clipboardData.setData("text/html", html);
+    copyEventHandled = true;
   };
 
-  document.addEventListener("copy", handleCopy, { once: true });
-  const copied = document.execCommand("copy");
-  textarea.remove();
+  document.addEventListener("copy", handleCopy);
 
-  if (!copied) throw new Error("Copy command was rejected");
+  let copied = false;
+  try {
+    copied = document.execCommand("copy");
+  } finally {
+    document.removeEventListener("copy", handleCopy);
+    copyTarget.remove();
+
+    if (selection) {
+      selection.removeAllRanges();
+      savedRanges.forEach((range) => selection.addRange(range));
+    }
+    if (activeElement instanceof HTMLElement) activeElement.focus({ preventScroll: true });
+  }
+
+  return copied && copyEventHandled;
 };
 
 export const copyText = async (text) => {
@@ -27,11 +66,12 @@ export const copyText = async (text) => {
       await navigator.clipboard.writeText(text);
       return;
     } catch {
-      // Fall back when clipboard permissions are denied after async image work.
+      // Fall through to the synchronous fallback used by older and restricted browsers.
     }
   }
 
-  copyWithExecCommand(text);
+  if (copyWithExecCommand(text)) return;
+  throw new Error("Clipboard API is unavailable");
 };
 
 export const copyRichText = async (html, text) => {
@@ -44,11 +84,12 @@ export const copyRichText = async (html, text) => {
       await navigator.clipboard.write([item]);
       return;
     } catch {
-      // Some browsers reject rich clipboard items containing embedded images.
+      // Fall through to the synchronous fallback used by older and restricted browsers.
     }
   }
 
-  copyWithExecCommand(text, html);
+  if (copyWithExecCommand(text, html)) return;
+  throw new Error("Rich clipboard API is unavailable");
 };
 
 const blobToDataUrl = (blob) => new Promise((resolve, reject) => {
