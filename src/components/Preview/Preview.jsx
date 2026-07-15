@@ -1,509 +1,121 @@
-import * as clipboard from "clipboard-polyfill";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import PropTypes from "prop-types";
+import { Box, Button, Flex, Heading, Icon, Text } from "@chakra-ui/react";
+import { Code2, Copy, Eye, LoaderCircle } from "lucide-react";
 
-import "./preview.scss";
+import EmailSignature from "../EmailSignature/EmailSignature";
+import { copyRichText, copyText, createPortableHtml } from "../../lib/clipboard";
 
-const Preview = (props) => {
-  const { data, setMsg, setSuccess } = props;
+const Preview = ({ data, onNotify }) => {
+  const signatureRef = useRef(null);
+  const [copying, setCopying] = useState("");
 
-  const div = useRef(null);
+  const getPlainText = () => [
+    `${data.firstname || "Имя"} ${data.lastname || "Фамилия"}`,
+    data.position || "Должность",
+    data.phone || "+7 999 123-45-67",
+    data.email || "name@reputation.house",
+    "reputation.house",
+  ].join("\n");
 
-  const copyToClipboard = (isHtml) => {
-    const dt = new clipboard.DT();
-    const html = div.current.innerHTML.trim();
+  const handleCopy = async (mode) => {
+    if (!signatureRef.current || copying) return;
 
-    if (isHtml) {
-      dt.setData("text/plain", html);
-      setMsg("✔︎ HTML код подписи успешно скопирован!");
-    } else {
-      clipboard.suppressWarnings();
-      dt.setData("text/html", html);
-      setMsg("✔︎ Ваша подпись успешно сформирована!");
+    setCopying(mode);
+    try {
+      const html = await createPortableHtml(signatureRef.current);
+
+      if (mode === "signature") {
+        await copyRichText(html, getPlainText());
+        onNotify("Подпись скопирована — вставьте её в настройки почты");
+      } else {
+        await copyText(html);
+        onNotify("HTML-код подписи скопирован");
+      }
+    } catch {
+      onNotify("Не удалось скопировать. Разрешите доступ к буферу обмена");
+    } finally {
+      setCopying("");
     }
-
-    clipboard.write(dt);
-
-    setSuccess(true);
   };
 
   return (
-    <div className="preview-block">
-      <div className="content-table">
-        <table
-          ref={div}
-          className="main-table-tag"
-          style={{ width: "500px", maxWidth: "600px" }}
+    <Box as="section" bg="rgba(255,255,255,.88)" border="1px solid" borderColor="#e1e7de" borderRadius="3xl" p={{ base: "5", md: "7" }} boxShadow="0 22px 70px rgba(47, 65, 46, 0.08)" backdropFilter="blur(14px)" minW="0">
+      <Flex align="center" justify="space-between" gap="4" mb="6">
+        <Box>
+          <Text color="#718070" fontSize="xs" textTransform="uppercase" letterSpacing="0.14em" fontWeight="800">Шаг 2</Text>
+          <Heading as="h2" mt="1" fontSize="2xl" letterSpacing="-0.025em">Готовая подпись</Heading>
+        </Box>
+        <Flex boxSize="10" align="center" justify="center" bg="#edf4e9" color="#526d4c" borderRadius="xl">
+          <Icon as={Eye} boxSize="5" />
+        </Flex>
+      </Flex>
+
+      <Box border="1px solid" borderColor="#e4e8e2" borderRadius="2xl" bg="#f7f8f6" p={{ base: "3", md: "4" }} overflow="hidden" h={{ base: "112px", sm: "170px", md: "auto" }}>
+        <Box
+          bg="white"
+          w="564px"
+          p="3"
+          borderRadius="xl"
+          boxShadow="0 12px 40px rgba(28, 35, 29, 0.08)"
+          transform={{ base: "scale(0.49)", sm: "scale(0.76)", md: "scale(1)" }}
+          transformOrigin="top left"
         >
-          <tbody>
-            <tr>
-              <td>
-                <table
-                  className="main-table-tag general-table"
-                  style={{
-                    width: "500px",
+          <EmailSignature ref={signatureRef} data={data} />
+        </Box>
+      </Box>
 
-                    borderCollapse: "collapse",
-                  }}
-                >
-                  <tbody>
-                    <tr
-                      className="table-flex"
-                      style={{
-                        width: "500px",
-                        display: "flex",
-                        height: "100%",
-                        alignItems: "flex-start",
-                        justifyContent: "space-between",
-                        marginBottom: "0",
-                      }}
-                    >
-                      <td
-                        className="table-left"
-                        style={{
-                          display: "inline",
-                          width: "35%",
-                          maxWidth: "35%",
-                          float: "left",
-                          height: "190px",
-                          marginRight: "15px",
-                        }}
-                      >
-                        <table
-                          style={{ width: "100%", borderCollapse: "collapse" }}
-                        >
-                          <tbody>
-                            <tr>
-                              <td>
-                                <img
-                                  style={{
-                                    width: "100%",
-                                    borderRadius: "3px",
-                                  }}
-                                  className="logo"
-                                  src={
-                                    data.photoUrl
-                                      ? data.photoUrl
-                                      : "https://media.istockphoto.com/id/1147544807/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%BD%D0%B5%D1%82-thumbnail-%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80-%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9.jpg?s=612x612&w=0&k=20&c=qA0VzNlwzqnnha_m2cHIws9MJ6vRGsZmys335A0GJW4="
-                                  }
-                                  alt="logo"
-                                />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                      <td
-                        className="table-right"
-                        style={{
-                          width: "60%",
-                          display: "inline",
-                          float: "right",
-                          height: "190px",
-                        }}
-                      >
-                        <table
-                          style={{ width: "300px", borderCollapse: "collapse" }}
-                        >
-                          <tbody>
-                            <tr>
-                              <td
-                                style={{
-                                  textAlign: "initial",
-                                  position: "relative",
-                                }}
-                              >
-                                <table>
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <span
-                                          style={{
-                                            fontWeight: "bold",
-                                            fontSize: "18px",
-                                            color: "#000",
-                                          }}
-                                        >
-                                          {data.firstname
-                                            ? data.firstname
-                                            : "Имя"}
-                                        </span>
-                                        <span>&nbsp;</span>
-                                        <span
-                                          style={{
-                                            fontWeight: "bold",
-                                            fontSize: "18px",
-                                            color: "#000",
-                                          }}
-                                        >
-                                          {data.lastname
-                                            ? data.lastname
-                                            : "Фамилия"}
-                                        </span>
-                                      </td>
-                                      <td
-                                        style={{
-                                          width: "100%",
-                                          textAlign: "right",
-                                        }}
-                                      >
-                                        <img
-                                          style={{
-                                            width: "15px",
-                                            verticalAlign: "middle",
-                                          }}
-                                          src="https://lh3.googleusercontent.com/d/1keeR8xgOoTt0EM0WEuTqsNDLfb_LgwuR?authuser=2"
-                                        />
-                                      </td>
-                                    </tr>
-
-                                    <tr>
-                                      <td style={{
-                                        width: '100%'
-                                      }}>
-                                        <p
-                                          style={{
-                                            margin: 0,
-                                            marginBottom: "5px",
-                                            paddingBottom: "10px",
-                                            //borderBottom: "1px solid #ee1b22",
-                                          }}
-                                        >
-                                          <span
-                                            style={{
-                                              fontSize: "14px",
-                                              lineHeight: "22px",
-                                              color: "#000",
-                                            }}
-                                          >
-                                            {data.position
-                                              ? data.position
-                                              : "Должность"}
-                                          </span>
-                                        </p>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-
-                                <table
-                                  style={{
-                                    width: "100%",
-                                    borderCollapse: "collapse",
-                                    marginTop: "15px",
-                                  }}
-                                >
-                                  <tbody>
-                                    <tr
-                                      style={{
-                                        height: "100%",
-                                      }}
-                                    >
-                                      <td>
-                                        <table
-                                          style={{
-                                            marginBottom: "3px",
-                                            borderCollapse: "collapse",
-                                          }}
-                                        >
-                                          <tbody>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  margin: "5px 0",
-                                                }}
-                                              >
-                                                <img
-                                                  className="mini-icon"
-                                                  //src="https://drive.google.com/uc?export=view&id=1dkjDP1QpeTSbW0k4D5U-cxwEegkfqzIU"
-                                                  src="https://drive.google.com/thumbnail?id=1S7Mcza6Thb5fgcbh5CdvC9JigfJVUvI6"
-                                                  color="#000"
-                                                  alt="Phone icon"
-                                                  style={{
-                                                    display: "block",
-                                                    marginRight: "8px",
-                                                  }}
-                                                />
-                                              </td>
-                                              <td>
-                                                <span
-                                                  style={{
-                                                    fontSize: "12px",
-                                                    color: "#000",
-                                                  }}
-                                                >
-                                                  {data.phone
-                                                    ? data.phone
-                                                    : "+7-999-999-99-99"}
-                                                </span>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-
-                                        <table
-                                          style={{
-                                            marginTop: "0",
-                                            marginBottom: "3px",
-                                            borderCollapse: "collapse",
-                                          }}
-                                        >
-                                          <tbody>
-                                            <tr>
-                                              <td
-                                                style={{
-                                                  margin: "5px 0",
-                                                }}
-                                              >
-                                                <img
-                                                  className="mini-icon"
-                                                  //src="https://drive.google.com/uc?export=view&id=1Vxidzi7f-vMmK8Ij4NGv-S2O6UK--6Wy"
-                                                  src="https://drive.google.com/thumbnail?id=1J7czVX1u9Ex3eDHtIzIXcf4fu4M9F5an"
-                                                  color="#000"
-                                                  alt="Email icon"
-                                                  style={{
-                                                    display: "block",
-                                                    marginRight: "8px",
-                                                  }}
-                                                />
-                                              </td>
-                                              <td>
-                                                <span
-                                                  style={{
-                                                    fontSize: "12px",
-                                                    color: "#000",
-                                                    textDecoration: "none",
-                                                  }}
-                                                >
-                                                  {data.email
-                                                    ? data.email
-                                                    : "yourmail@gmail.com"}
-                                                </span>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-
-                                        <table
-                                          style={{
-                                            marginTop: "0",
-                                            borderCollapse: "collapse",
-                                          }}
-                                        >
-                                          <tbody>
-                                            <tr
-                                              style={{
-                                                cursor: "pointer",
-                                              }}
-                                            >
-                                              <td
-                                                style={{
-                                                  width: "30px",
-                                                  margin: "5px 0",
-                                                }}
-                                              >
-                                                <img
-                                                  className="mini-icon"
-                                                  //src="https://drive.google.com/uc?export=view&id=1LMcWwXfbjUwaaJT6nlU0lK-wm34VI8_4"
-                                                  src="https://drive.google.com/thumbnail?id=158aUjipXMy-XOPoL_aavxfZJcs0A5cPV"
-                                                  color="#000"
-                                                  alt="Website URL icon"
-                                                  style={{
-                                                    display: "block",
-                                                    marginRight: "8px",
-                                                  }}
-                                                />
-                                              </td>
-                                              <td>
-                                                <a
-                                                  target="__blank"
-                                                  href="https://reputation.house/"
-                                                  style={{
-                                                    textDecoration: "none",
-                                                    color: "#000",
-                                                  }}
-                                                >
-                                                  <span
-                                                    style={{
-                                                      fontSize: "12px",
-                                                    }}
-                                                  >
-                                                    reputation.house
-                                                  </span>
-                                                </a>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                      </td>
-                                      <td
-                                        style={{
-                                          height: "100%",
-                                          verticalAlign: "top",
-                                        }}
-                                      >
-                                        <table
-                                          className="social-block"
-                                          style={{
-                                            width: "100%",
-                                            textAlign: "right",
-                                            borderCollapse: "collapse",
-                                            height: "100%",
-                                            float: "right",
-                                          }}
-                                        >
-                                          <tbody>
-                                            <tr>
-                                              <td>
-                                                <a
-                                                  href="https://www.linkedin.com/company/20417837"
-                                                  color="#000"
-                                                  style={{
-                                                    display: "inline-block",
-                                                    padding: "0px",
-                                                  }}
-                                                >
-                                                  <img
-                                                    //src="https://drive.google.com/uc?export=view&id=1z-eHUOGlJFXAKmEQm06RUhy-UVBEspJt"
-                                                    src="https://drive.google.com/thumbnail?id=1jCPqEBIMANLcQcfvFi-D07JK-JyBz4hQ"
-                                                    alt="linkedin"
-                                                    style={{
-                                                      maxWidth: "135px",
-                                                      display: "block",
-                                                    }}
-                                                  />
-                                                </a>
-                                              </td>
-                                              <td>
-                                                <a
-                                                  href="https://www.instagram.com/reputation_house"
-                                                  color="#000"
-                                                  style={{
-                                                    display: "inline-block",
-                                                    padding: "0px",
-                                                    marginLeft: "10px",
-                                                  }}
-                                                >
-                                                  <img
-                                                    //src="https://drive.google.com/uc?export=view&id=1PBrP6IRl_HYBfpVdVTl0huZ9yBLbENq5"
-                                                    src="https://drive.google.com/thumbnail?id=1IOnavgjMFf75lUtlOTJdsh9C8VOCM1Jg"
-                                                    alt="instagram"
-                                                    color="#000"
-                                                    style={{
-                                                      maxWidth: "135px",
-                                                      display: "block",
-                                                    }}
-                                                  />
-                                                </a>
-                                              </td>
-                                              <td>
-                                                <a
-                                                  href="https://www.youtube.com/@ReputationHouse-pr2tq"
-                                                  color="#000"
-                                                  style={{
-                                                    display: "inline-block",
-                                                    padding: "0px",
-                                                    marginLeft: "10px",
-                                                  }}
-                                                >
-                                                  <img
-                                                    //src="https://drive.google.com/uc?export=view&id=1Lexe2dRwtqLzohbKZVdIEChWjWYN7lMS"
-                                                    src="https://drive.google.com/thumbnail?id=1yMtmoSolq0Fs5eUJg1_9fNwN2i8BgWwy"
-                                                    alt="youtube"
-                                                    color="#000"
-                                                    style={{
-                                                      maxWidth: "135px",
-                                                      display: "block",
-                                                    }}
-                                                  />
-                                                </a>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr
-                      style={{
-                        display: "flex",
-                        width: "100%",
-                        minHeight: "20px",
-                        height: "20px",
-                        justifyContent: "flex-start",
-                        backgroundColor: "#ee1b22",
-                        borderRadius: "2px",
-                        marginTop: "0",
-                      }}
-                    >
-                      <td
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          minHeight: "20px",
-                          height: "20px",
-                          justifyContent: "flex-start",
-                          backgroundColor: "#ee1b22",
-                          borderRadius: "2px",
-                          marginTop: "0",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            width: "100%",
-                            minHeight: "20px",
-                            height: "20px",
-                            justifyContent: "flex-start",
-                            backgroundColor: "#ee1b22",
-                            borderRadius: "2px",
-                            marginTop: "0",
-                          }}
-                        ></div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div className="buttons-block__wrapper">
-        {data.firstname && (
-          <div className="buttons-block">
-            <button
-              type="submit"
-              className="generate-btn"
-              onClick={() => copyToClipboard(false)}
-            >
-              Сформировать подпись
-            </button>
-            <button
-              type="submit"
-              className="generate-btn"
-              onClick={() => copyToClipboard(true)}
-            >
-              Скопировать HTML
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+      <Flex mt="5" gap="3" direction={{ base: "column", sm: "row" }}>
+        <Button
+          flex="1"
+          h="12"
+          bg="#c0d7b5"
+          color="#263525"
+          borderRadius="xl"
+          fontWeight="750"
+          _hover={{ bg: "#afcba3", transform: "translateY(-1px)" }}
+          _active={{ bg: "#a2c095", transform: "translateY(0)" }}
+          onClick={() => handleCopy("signature")}
+          disabled={Boolean(copying)}
+        >
+          <Icon as={copying === "signature" ? LoaderCircle : Copy} boxSize="4.5" className={copying === "signature" ? "spin" : undefined} />
+          Скопировать подпись
+        </Button>
+        <Button
+          flex="1"
+          h="12"
+          variant="outline"
+          borderColor="#cbd5c8"
+          color="#435044"
+          borderRadius="xl"
+          fontWeight="700"
+          _hover={{ bg: "#f2f6f0", borderColor: "#afc2a9" }}
+          onClick={() => handleCopy("html")}
+          disabled={Boolean(copying)}
+        >
+          <Icon as={copying === "html" ? LoaderCircle : Code2} boxSize="4.5" className={copying === "html" ? "spin" : undefined} />
+          Скопировать HTML
+        </Button>
+      </Flex>
+      <Text mt="4" color="#7b857b" fontSize="xs" lineHeight="1.5">
+        Для Gmail и Outlook используйте первую кнопку. HTML пригодится для ручной настройки или интеграции.
+      </Text>
+    </Box>
   );
 };
 
 Preview.propTypes = {
-  data: PropTypes.object.isRequired,
-  setMsg: PropTypes.func,
-  setSuccess: PropTypes.func,
+  data: PropTypes.shape({
+    firstname: PropTypes.string.isRequired,
+    lastname: PropTypes.string.isRequired,
+    position: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    photoUrl: PropTypes.string.isRequired,
+    photoDataUrl: PropTypes.string.isRequired,
+    photoFileName: PropTypes.string.isRequired,
+  }).isRequired,
+  onNotify: PropTypes.func.isRequired,
 };
 
 export default Preview;
