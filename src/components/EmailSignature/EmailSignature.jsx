@@ -54,7 +54,7 @@ const EmailSignature = forwardRef(({ data }, ref) => {
     <table ref={ref} role="presentation" cellPadding="0" cellSpacing="0" border="0" width="540" style={{ width: "540px", borderCollapse: "collapse", backgroundColor: "#ffffff" }}>
       <tbody>
         <tr>
-          <td rowSpan="2" width="155" height="171" style={{ width: "155px", height: "171px", padding: "0 22px 0 0", verticalAlign: "top" }}>
+          <td rowSpan="2" width="177" height="171" style={{ width: "177px", height: "171px", padding: "0 22px 0 0", verticalAlign: "top" }}>
             <img
               src={photo}
               alt={`${firstName} ${lastName}`}
@@ -67,7 +67,7 @@ const EmailSignature = forwardRef(({ data }, ref) => {
             />
           </td>
 
-          <td rowSpan="2" width="300" style={{ width: "300px", padding: "8px 12px 0 0", verticalAlign: "top" }}>
+          <td rowSpan="2" width="293" style={{ width: "293px", padding: "8px 12px 0 0", verticalAlign: "top" }}>
             <table role="presentation" cellPadding="0" cellSpacing="0" border="0" width="100%" style={{ width: "100%", borderCollapse: "collapse" }}>
               <tbody>
                 <tr>

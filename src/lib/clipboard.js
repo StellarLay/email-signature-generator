@@ -110,4 +110,14 @@ export const copyRichText = async (html, text) => {
   throw new Error("Rich clipboard API is unavailable");
 };
 
-export const createEmailHtml = (element) => element.cloneNode(true).outerHTML;
+const compactInlineStyles = (html) => html.replace(
+  /style="([^"]*)"/g,
+  (_match, styles) => `style="${styles
+    .replace(/\s*:\s*/g, ":")
+    .replace(/;\s*/g, ";")
+    .replace(/;$/, "")}"`,
+);
+
+export const createEmailHtml = (element) => compactInlineStyles(
+  element.cloneNode(true).outerHTML,
+);

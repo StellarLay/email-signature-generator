@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Badge, Box, Button, Field, Flex, Heading, Icon, Input, SimpleGrid, Text } from "@chakra-ui/react";
-import { AtSign, BriefcaseBusiness, Image, Link2, Phone, UploadCloud, UserRound, X } from "lucide-react";
+import { AtSign, BriefcaseBusiness, Image, Link2, LoaderCircle, Phone, UploadCloud, UserRound, X } from "lucide-react";
+import { optimizePhotoFile } from "../../lib/photoFile";
 
 const fields = [
   { name: "firstname", label: "First name", placeholder: "Anna", icon: UserRound, autoComplete: "given-name" },
@@ -11,16 +12,20 @@ const fields = [
   { name: "email", label: "Work email", placeholder: "name@reputation.house", icon: AtSign, autoComplete: "email", inputMode: "email", type: "email" },
 ];
 
-const MAX_PHOTO_SIZE = 2 * 1024 * 1024;
+const MAX_PHOTO_SIZE = 15 * 1024 * 1024;
 const ACCEPTED_PHOTO_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 const PhotoField = ({ data, onChange }) => {
   const fileInputRef = useRef(null);
+  const processingIdRef = useRef(0);
   const [error, setError] = useState("");
   const [isDragging, setIsDragging] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const updatePhotoUrl = (event) => {
     const value = event.target.value;
+    processingIdRef.current += 1;
+    setIsProcessing(false);
     setError("");
     onChange((currentData) => ({
       ...currentData,
@@ -30,7 +35,7 @@ const PhotoField = ({ data, onChange }) => {
     }));
   };
 
-  const selectFile = (file) => {
+  const selectFile = async (file) => {
     if (!file) return;
 
     if (!ACCEPTED_PHOTO_TYPES.has(file.type)) {
@@ -39,27 +44,38 @@ const PhotoField = ({ data, onChange }) => {
     }
 
     if (file.size > MAX_PHOTO_SIZE) {
-      setError("The file is too large. Maximum size is 2 MB.");
+      setError("The source file is too large. Maximum size is 15 MB.");
       return;
     }
 
-    const reader = new FileReader();
-    reader.addEventListener("load", () => {
+    const processingId = processingIdRef.current + 1;
+    processingIdRef.current = processingId;
+    setIsProcessing(true);
+    setError("");
+
+    try {
+      const { dataUrl } = await optimizePhotoFile(file);
+      if (processingIdRef.current !== processingId) return;
+
       setError("");
       onChange((currentData) => ({
         ...currentData,
         photoUrl: "",
-        photoDataUrl: reader.result,
+        photoDataUrl: dataUrl,
         photoFileName: file.name,
       }));
-    }, { once: true });
-    reader.addEventListener("error", () => {
-      setError("Could not read the file. Please try another image.");
-    }, { once: true });
-    reader.readAsDataURL(file);
+    } catch {
+      if (processingIdRef.current === processingId) {
+        setError("Could not process the file. Please try another image.");
+      }
+    } finally {
+      if (processingIdRef.current === processingId) setIsProcessing(false);
+    }
   };
 
   const clearFile = () => {
+    processingIdRef.current += 1;
+    setIsProcessing(false);
     setError("");
     if (fileInputRef.current) fileInputRef.current.value = "";
     onChange((currentData) => ({
@@ -129,10 +145,21 @@ const PhotoField = ({ data, onChange }) => {
           type="file"
           accept="image/jpeg,image/png,image/webp"
           hidden
+          disabled={isProcessing}
           onChange={(event) => selectFile(event.target.files[0])}
         />
 
-        {data.photoFileName ? (
+        {isProcessing ? (
+          <Flex align="center" gap="3" minH="9">
+            <Flex boxSize="9" align="center" justify="center" borderRadius="lg" bg="#dfeadb" color="#567150" flexShrink="0">
+              <Icon as={LoaderCircle} boxSize="4.5" className="spin" />
+            </Flex>
+            <Box>
+              <Text fontSize="sm" fontWeight="700" color="#3f4940">Optimizing photo…</Text>
+              <Text mt="0.5" fontSize="xs" color="#828c81">Cropping and compressing for email</Text>
+            </Box>
+          </Flex>
+        ) : data.photoFileName ? (
           <Flex align="center" justify="space-between" gap="3">
             <Flex align="center" gap="3" minW="0">
               <Flex boxSize="9" align="center" justify="center" borderRadius="lg" bg="#dfeadb" color="#567150" flexShrink="0">
@@ -140,7 +167,7 @@ const PhotoField = ({ data, onChange }) => {
               </Flex>
               <Box minW="0">
                 <Text fontSize="sm" fontWeight="700" color="#344035" truncate>{data.photoFileName}</Text>
-                <Badge mt="1" bg="#dfeadb" color="#536c4d" borderRadius="full" px="2" fontSize="2xs">File uploaded</Badge>
+                <Badge mt="1" bg="#dfeadb" color="#536c4d" borderRadius="full" px="2" fontSize="2xs">Cropped &amp; optimized</Badge>
               </Box>
             </Flex>
             <Button type="button" size="xs" variant="ghost" color="#687367" onClick={clearFile} aria-label="Remove photo">
@@ -155,10 +182,10 @@ const PhotoField = ({ data, onChange }) => {
               </Flex>
               <Box>
                 <Text fontSize="sm" fontWeight="700" color="#3f4940">Drop your photo here</Text>
-                <Text mt="0.5" fontSize="xs" color="#828c81">JPG, PNG, or WebP up to 2 MB</Text>
+                <Text mt="0.5" fontSize="xs" color="#828c81">JPG, PNG, or WebP up to 15 MB</Text>
               </Box>
             </Flex>
-            <Button type="button" size="sm" variant="outline" borderColor="#bfcbbb" color="#4d604b" borderRadius="lg" onClick={() => fileInputRef.current?.click()}>
+            <Button type="button" size="sm" variant="outline" borderColor="#bfcbbb" color="#4d604b" borderRadius="lg" disabled={isProcessing} onClick={() => fileInputRef.current?.click()}>
               Choose file
             </Button>
           </Flex>
@@ -166,7 +193,7 @@ const PhotoField = ({ data, onChange }) => {
       </Box>
 
       <Field.HelperText color="#7c867c" fontSize="xs" lineHeight="1.5">
-        Use either a link or an uploaded file. For Gmail and maximum compatibility, use a public HTTPS link. Google Drive access must be set to “Anyone with the link”.
+        Uploaded photos are automatically center-cropped and compressed for Gmail. Google Drive access must be set to “Anyone with the link”.
       </Field.HelperText>
       {error && <Field.ErrorText fontSize="xs">{error}</Field.ErrorText>}
     </Field.Root>

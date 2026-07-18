@@ -6,7 +6,7 @@ import { Code2, Copy, Eye, LoaderCircle } from "lucide-react";
 import EmailSignature from "../EmailSignature/EmailSignature";
 import { copyRichText, copyText, createEmailHtml } from "../../lib/clipboard";
 
-const GMAIL_SAFE_HTML_LENGTH = 9000;
+const GMAIL_SAFE_HTML_LENGTH = 9500;
 
 const Preview = ({ data, onNotify }) => {
   const signatureRef = useRef(null);
