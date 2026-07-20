@@ -1,5 +1,31 @@
 import * as clipboard from "clipboard-polyfill";
 
+const copyElementWithExecCommand = (element) => {
+  const activeElement = document.activeElement;
+  const selection = window.getSelection();
+  const savedRanges = selection
+    ? Array.from({ length: selection.rangeCount }, (_, index) => selection.getRangeAt(index).cloneRange())
+    : [];
+
+  if (!selection) return false;
+
+  const range = document.createRange();
+  range.selectNode(element);
+  selection.removeAllRanges();
+  selection.addRange(range);
+
+  let copied = false;
+  try {
+    copied = document.execCommand("copy");
+  } finally {
+    selection.removeAllRanges();
+    savedRanges.forEach((savedRange) => selection.addRange(savedRange));
+    if (activeElement instanceof HTMLElement) activeElement.focus({ preventScroll: true });
+  }
+
+  return copied;
+};
+
 const copyWithExecCommand = (text, html) => {
   const activeElement = document.activeElement;
   const selection = window.getSelection();
@@ -83,27 +109,34 @@ export const copyText = async (text) => {
   throw new Error("Clipboard API is unavailable");
 };
 
-export const copyRichText = async (html, text) => {
-  try {
-    clipboard.suppressWarnings();
-    const clipboardData = new clipboard.DT();
-    clipboardData.setData("text/html", html);
-    await clipboard.write(clipboardData);
-    return;
-  } catch {
-    // Try the modern Clipboard API below.
-  }
+export const copyRichText = async (element, html, text) => {
+  // Copying the rendered table itself produces the same browser-native rich
+  // clipboard fragment as a manual selection + Cmd/Ctrl+C. Gmail handles that
+  // payload more reliably than HTML written only through the Clipboard API.
+  if (copyElementWithExecCommand(element)) return;
 
   if (navigator.clipboard?.write && window.ClipboardItem) {
     try {
       const item = new window.ClipboardItem({
         "text/html": new Blob([html], { type: "text/html" }),
+        "text/plain": new Blob([text], { type: "text/plain" }),
       });
       await navigator.clipboard.write([item]);
       return;
     } catch {
-      // Fall through to the final synchronous fallback with a plain-text variant.
+      // Try the ponyfill below.
     }
+  }
+
+  try {
+    clipboard.suppressWarnings();
+    const clipboardData = new clipboard.DT();
+    clipboardData.setData("text/html", html);
+    clipboardData.setData("text/plain", text);
+    await clipboard.write(clipboardData);
+    return;
+  } catch {
+    // Fall through to the final synchronous fallback.
   }
 
   if (copyWithExecCommand(text, html)) return;

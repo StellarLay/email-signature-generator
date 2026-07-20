@@ -6,8 +6,6 @@ import { Code2, Copy, Eye, LoaderCircle } from "lucide-react";
 import EmailSignature from "../EmailSignature/EmailSignature";
 import { copyRichText, copyText, createEmailHtml } from "../../lib/clipboard";
 
-const GMAIL_SAFE_HTML_LENGTH = 9500;
-
 const Preview = ({ data, onNotify }) => {
   const signatureRef = useRef(null);
   const [copying, setCopying] = useState("");
@@ -28,11 +26,7 @@ const Preview = ({ data, onNotify }) => {
       const html = createEmailHtml(signatureRef.current);
 
       if (mode === "signature") {
-        if (html.length > GMAIL_SAFE_HTML_LENGTH) {
-          onNotify("This signature is too large for Gmail. Use a public photo link instead of an uploaded file");
-          return;
-        }
-        await copyRichText(html, getPlainText());
+        await copyRichText(signatureRef.current, html, getPlainText());
         onNotify("Signature copied — paste it into your email settings");
       } else {
         await copyText(html);

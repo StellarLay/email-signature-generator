@@ -54,20 +54,31 @@ const EmailSignature = forwardRef(({ data }, ref) => {
     <table ref={ref} role="presentation" cellPadding="0" cellSpacing="0" border="0" width="540" style={{ width: "540px", borderCollapse: "collapse", backgroundColor: "#ffffff" }}>
       <tbody>
         <tr>
-          <td rowSpan="2" width="177" height="171" style={{ width: "177px", height: "171px", padding: "0 22px 0 0", verticalAlign: "top" }}>
-            <img
-              src={photo}
-              alt={`${firstName} ${lastName}`}
-              width="155"
-              height="155"
-              onError={(event) => {
-                event.currentTarget.src = emailAssetUrl("photo-placeholder.png");
-              }}
-              style={{ display: "block", width: "155px", height: "155px", objectFit: "cover", border: 0, borderRadius: "1px" }}
-            />
+          <td width="177" height="171" style={{ width: "177px", height: "171px", padding: "0 22px 0 0", verticalAlign: "top" }}>
+            <table role="presentation" cellPadding="0" cellSpacing="0" border="0" width="155" style={{ width: "155px", borderCollapse: "collapse" }}>
+              <tbody>
+                <tr>
+                  <td width="155" height="155" style={{ width: "155px", height: "155px", padding: 0, fontSize: "0", lineHeight: "0", verticalAlign: "top" }}>
+                    <img
+                      src={photo}
+                      alt={`${firstName} ${lastName}`}
+                      width="155"
+                      height="155"
+                      onError={(event) => {
+                        event.currentTarget.src = emailAssetUrl("photo-placeholder.png");
+                      }}
+                      style={{ display: "block", width: "155px", height: "155px", objectFit: "cover", border: 0, borderRadius: "1px" }}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td height="16" style={{ height: "16px", padding: 0, fontSize: "0", lineHeight: "16px" }}>&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
           </td>
 
-          <td rowSpan="2" width="293" style={{ width: "293px", padding: "8px 12px 0 0", verticalAlign: "top" }}>
+          <td width="293" height="171" style={{ width: "293px", height: "171px", padding: "0 12px 0 0", verticalAlign: "top" }}>
             <table role="presentation" cellPadding="0" cellSpacing="0" border="0" width="100%" style={{ width: "100%", borderCollapse: "collapse" }}>
               <tbody>
                 <tr>
@@ -116,14 +127,21 @@ const EmailSignature = forwardRef(({ data }, ref) => {
             </table>
           </td>
 
-          <td width="70" height="82" style={{ width: "70px", height: "82px", padding: "6px 0 0", textAlign: "right", verticalAlign: "top" }}>
-            <img src={emailAssetUrl("reputation-house-logo.png")} alt="Reputation House" width="26" height="39" style={{ display: "block", width: "26px", height: "39px", marginLeft: "auto", border: 0 }} />
-          </td>
-        </tr>
-
-        <tr>
-          <td width="70" height="83" style={{ width: "70px", height: "83px", padding: 0, fontSize: "0", lineHeight: "0", textAlign: "right", verticalAlign: "bottom" }}>
-            <img src={emailAssetUrl("reputation-house-shape.png")} alt="" width="70" height="83" style={{ display: "block", width: "70px", height: "83px", border: 0, verticalAlign: "bottom" }} />
+          <td width="70" height="171" style={{ width: "70px", height: "171px", padding: 0, textAlign: "right", verticalAlign: "top" }}>
+            <table role="presentation" cellPadding="0" cellSpacing="0" border="0" width="70" style={{ width: "70px", borderCollapse: "collapse" }}>
+              <tbody>
+                <tr>
+                  <td width="70" height="88" style={{ width: "70px", height: "88px", padding: "6px 0 0", textAlign: "right", verticalAlign: "top" }}>
+                    <img src={emailAssetUrl("reputation-house-logo.png")} alt="Reputation House" width="26" height="39" style={{ display: "block", width: "26px", height: "39px", marginLeft: "auto", border: 0 }} />
+                  </td>
+                </tr>
+                <tr>
+                  <td width="70" height="83" style={{ width: "70px", height: "83px", padding: 0, fontSize: "0", lineHeight: "0", textAlign: "right", verticalAlign: "bottom" }}>
+                    <img src={emailAssetUrl("reputation-house-shape.png")} alt="" width="70" height="83" style={{ display: "block", width: "70px", height: "83px", border: 0, verticalAlign: "bottom" }} />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </td>
         </tr>
 
