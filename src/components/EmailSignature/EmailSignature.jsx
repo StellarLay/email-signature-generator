@@ -2,21 +2,9 @@ import { forwardRef } from "react";
 import PropTypes from "prop-types";
 import { normalizePhotoUrl } from "../../lib/photoUrl";
 
-const EMAIL_ASSET_VERSION = "20260715-2";
+const EMAIL_ASSET_VERSION = "20260721-1";
 const EMAIL_ASSET_BASE_URL = "https://stellarlay.github.io/email-signature-generator/email-assets/";
-const driveThumbnail = (id, size) => `https://drive.google.com/thumbnail?id=${id}${size ? `&sz=${size}` : ""}`;
-const GOOGLE_DRIVE_ASSETS = {
-  "instagram.png": driveThumbnail("1LCS8jtE3UklY47lsntua-6aQBJWn2E7c"),
-  "envelope.png": driveThumbnail("1TpERKn8dVR2zBJxF_6z64GjMMoNVM_Cu"),
-  "phone.png": driveThumbnail("1wUH1AqftP4mPvSf1eZbz6IGryPmd7eTg"),
-  "youtube.png": driveThumbnail("1AMmZ3qT3rtlPdgqmpCrR4oCmiRbH1Yo5"),
-  "linkedin.png": driveThumbnail("10AVA_GmeklZXRuRBsYgECxIw-vlfTqz5"),
-  "reputation-house-logo.png": driveThumbnail("1keeR8xgOoTt0EM0WEuTqsNDLfb_LgwuR"),
-  "reputation-house-shape.png": driveThumbnail("1FYIsUt8W2R6E8BzcVsr86GYOI7ecWyCw", "w70-h83-p"),
-};
-
-const emailAssetUrl = (filename) => GOOGLE_DRIVE_ASSETS[filename]
-  || `${EMAIL_ASSET_BASE_URL}${filename}?v=${EMAIL_ASSET_VERSION}`;
+const emailAssetUrl = (filename) => `${EMAIL_ASSET_BASE_URL}${filename}?v=${EMAIL_ASSET_VERSION}`;
 
 const socialLinks = [
   { label: "LinkedIn", href: "https://www.linkedin.com/company/20417837", icon: "linkedin.png" },
