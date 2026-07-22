@@ -14,6 +14,21 @@ const fields = [
 
 const MAX_PHOTO_SIZE = 15 * 1024 * 1024;
 const ACCEPTED_PHOTO_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+const PHOTO_PROCESSING_ERROR = "Could not process the file. Please try another image.";
+
+const getPhotoProcessingErrorMessage = (error) => {
+  if (!(error instanceof Error)) return PHOTO_PROCESSING_ERROR;
+
+  if (error.message === "Could not decode the image") {
+    return "Chrome could not decode this image. Re-save it as JPG, PNG, or WebP and try again.";
+  }
+
+  if (error.message === "Canvas is unavailable") {
+    return "Image processing is blocked in this browser. Check Chrome privacy settings or extensions.";
+  }
+
+  return `${PHOTO_PROCESSING_ERROR} (${error.message})`;
+};
 
 const PhotoField = ({ data, onChange }) => {
   const fileInputRef = useRef(null);
@@ -64,9 +79,16 @@ const PhotoField = ({ data, onChange }) => {
         photoDataUrl: dataUrl,
         photoFileName: file.name,
       }));
-    } catch {
+    } catch (processingError) {
+      console.error("Photo processing failed", {
+        error: processingError,
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type,
+      });
+
       if (processingIdRef.current === processingId) {
-        setError("Could not process the file. Please try another image.");
+        setError(getPhotoProcessingErrorMessage(processingError));
       }
     } finally {
       if (processingIdRef.current === processingId) setIsProcessing(false);

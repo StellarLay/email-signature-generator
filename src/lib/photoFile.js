@@ -5,8 +5,35 @@ const TARGET_DATA_URL_LENGTH = 3400;
 let imageResizerPromise;
 
 const getImageResizer = () => {
-  imageResizerPromise ??= import("pica").then(({ default: createPica }) => createPica());
+  imageResizerPromise ??= import("pica")
+    .then(({ default: createPica }) => createPica({ features: ["js"] }))
+    .catch((error) => {
+      imageResizerPromise = undefined;
+      throw error;
+    });
   return imageResizerPromise;
+};
+
+const resizeWithCanvas = (sourceCanvas, outputCanvas) => {
+  const context = outputCanvas.getContext("2d");
+
+  if (!context) throw new Error("Canvas is unavailable");
+
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, outputCanvas.width, outputCanvas.height);
+  context.imageSmoothingEnabled = true;
+  context.imageSmoothingQuality = "high";
+  context.drawImage(
+    sourceCanvas,
+    0,
+    0,
+    sourceCanvas.width,
+    sourceCanvas.height,
+    0,
+    0,
+    outputCanvas.width,
+    outputCanvas.height,
+  );
 };
 
 const loadImage = (file) => new Promise((resolve, reject) => {
@@ -69,10 +96,14 @@ export const optimizePhotoFile = async (file) => {
   outputCanvas.width = OUTPUT_SIZE;
   outputCanvas.height = OUTPUT_SIZE;
 
-  const imageResizer = await getImageResizer();
-  await imageResizer.resize(sourceCanvas, outputCanvas, {
-    filter: "mks2013",
-  });
+  try {
+    const imageResizer = await getImageResizer();
+    await imageResizer.resize(sourceCanvas, outputCanvas, {
+      filter: "mks2013",
+    });
+  } catch {
+    resizeWithCanvas(sourceCanvas, outputCanvas);
+  }
 
   let smallestDataUrl = "";
 
