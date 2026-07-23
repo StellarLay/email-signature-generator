@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Box, Button, Flex, Heading, Icon, Text } from "@chakra-ui/react";
 import { Code2, Copy, Eye, LoaderCircle } from "lucide-react";
 
-import EmailSignature from "../EmailSignature/EmailSignature";
+import EmailSignature, { EMAIL_DISCLAIMER } from "../EmailSignature/EmailSignature";
 import { copyRichText, copyText, createEmailHtml } from "../../lib/clipboard";
 
 const Preview = ({ data, onNotify }) => {
@@ -16,6 +16,8 @@ const Preview = ({ data, onNotify }) => {
     data.phone || "+7 999 123-45-67",
     data.email || "name@reputation.house",
     "reputation.house",
+    "",
+    EMAIL_DISCLAIMER,
   ].join("\n");
 
   const handleCopy = async (mode) => {
@@ -51,14 +53,14 @@ const Preview = ({ data, onNotify }) => {
         </Flex>
       </Flex>
 
-      <Box border="1px solid" borderColor="#e4e8e2" borderRadius="2xl" bg="#f7f8f6" p={{ base: "3", md: "4" }} overflow="hidden" h={{ base: "112px", sm: "170px", md: "auto" }}>
+      <Box border="1px solid" borderColor="#e4e8e2" borderRadius="2xl" bg="#f7f8f6" p={{ base: "3", md: "4" }} overflow="hidden" h={{ base: "170px", sm: "auto" }}>
         <Box
           bg="white"
-          w="564px"
+          w="424px"
           p="3"
           borderRadius="xl"
           boxShadow="0 12px 40px rgba(28, 35, 29, 0.08)"
-          transform={{ base: "scale(0.49)", sm: "scale(0.76)", md: "scale(1)" }}
+          transform={{ base: "scale(0.68)", sm: "scale(1)" }}
           transformOrigin="top left"
         >
           <EmailSignature ref={signatureRef} data={data} />
