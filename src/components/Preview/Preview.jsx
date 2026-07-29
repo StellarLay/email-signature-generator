@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { Box, Button, Flex, Heading, Icon, Text } from "@chakra-ui/react";
 import { Code2, Copy, Eye, LoaderCircle } from "lucide-react";
 
-import EmailSignature, { EMAIL_DISCLAIMER } from "../EmailSignature/EmailSignature";
+import EmailSignature from "../EmailSignature/EmailSignature";
+import { EMAIL_DISCLAIMER } from "../../constants/emailSignature";
 import { copyRichText, copyText, createEmailHtml } from "../../lib/clipboard";
 
 const Preview = ({ data, onNotify }) => {

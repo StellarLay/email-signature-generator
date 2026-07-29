@@ -1,12 +1,11 @@
-import { forwardRef } from "react";
+import { Fragment, forwardRef } from "react";
 import PropTypes from "prop-types";
 import { normalizePhotoUrl } from "../../lib/photoUrl";
+import { EMAIL_DISCLAIMER_LINES } from "../../constants/emailSignature";
 
 const EMAIL_ASSET_VERSION = "20260721-1";
 const EMAIL_ASSET_BASE_URL = "https://stellarlay.github.io/email-signature-generator/email-assets/";
 const emailAssetUrl = (filename) => `${EMAIL_ASSET_BASE_URL}${filename}?v=${EMAIL_ASSET_VERSION}`;
-
-export const EMAIL_DISCLAIMER = "This email and any attachments are intended only for the named recipient(s) and may contain confidential, privileged, or otherwise protected information. If you are not the intended recipient, any use, disclosure, copying, distribution, or reliance on this email or its contents is prohibited and may be unlawful. If you have received this email in error, please notify the sender by reply email and delete the original message and any attachments. Reputation House LLC does not warrant that this communication has been maintained in an error-free, virus-free, or secure condition, or that it has not been intercepted or altered. The views expressed in this message are those of the sender, except where expressly stated to be those of Reputation House LLC.";
 
 const socialLinks = [
   { label: "LinkedIn", href: "https://www.linkedin.com/company/20417837", icon: "linkedin.png" },
@@ -140,7 +139,12 @@ const EmailSignature = forwardRef(({ data }, ref) => {
         </tr>
         <tr>
           <td colSpan="3" style={{ padding: "8px 0 0", color: "#777777", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "8px", lineHeight: "11px", fontWeight: "400", textAlign: "left", verticalAlign: "top", msoLineHeightRule: "exactly" }}>
-            {EMAIL_DISCLAIMER}
+            {EMAIL_DISCLAIMER_LINES.map((line, index) => (
+              <Fragment key={line}>
+                {line}
+                {index < EMAIL_DISCLAIMER_LINES.length - 1 && <br />}
+              </Fragment>
+            ))}
           </td>
         </tr>
       </tbody>
