@@ -1,7 +1,7 @@
-import { Fragment, forwardRef } from "react";
+import { forwardRef } from "react";
 import PropTypes from "prop-types";
 import { normalizePhotoUrl } from "../../lib/photoUrl";
-import { EMAIL_DISCLAIMER_LINES } from "../../constants/emailSignature";
+import { EMAIL_DISCLAIMER } from "../../constants/emailSignature";
 
 const EMAIL_ASSET_VERSION = "20260721-1";
 const EMAIL_ASSET_BASE_URL = "https://stellarlay.github.io/email-signature-generator/email-assets/";
@@ -139,12 +139,7 @@ const EmailSignature = forwardRef(({ data }, ref) => {
         </tr>
         <tr>
           <td colSpan="3" style={{ padding: "8px 0 0", color: "#777777", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "8px", lineHeight: "11px", fontWeight: "400", textAlign: "left", verticalAlign: "top", msoLineHeightRule: "exactly" }}>
-            {EMAIL_DISCLAIMER_LINES.map((line, index) => (
-              <Fragment key={line}>
-                {line}
-                {index < EMAIL_DISCLAIMER_LINES.length - 1 && <br />}
-              </Fragment>
-            ))}
+            {EMAIL_DISCLAIMER}
           </td>
         </tr>
       </tbody>
